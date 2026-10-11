@@ -11,6 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- Firebase Realtime Database SDK (Compat Version) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
   <style>
     :root[data-theme="dark"] {
       --bg-base: #060913;
@@ -768,7 +772,7 @@
     </div>
 
     <div class="products-grid" id="productGrid">
-      <!-- Loaded dynamically via JavaScript -->
+      <!-- Loaded dynamically via JavaScript & Firebase -->
     </div>
   </main>
 
@@ -850,6 +854,21 @@
   </footer>
 
   <script>
+    // --- FIREBASE INITIALIZATION ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBWVk3Ifw0Sg2lSR7Xmf1N2hV6GtwArJNw",
+      authDomain: "premium-zone-bd.firebaseapp.com",
+      databaseURL: "https://premium-zone-bd-default-rtdb.firebaseio.com",
+      projectId: "premium-zone-bd",
+      storageBucket: "premium-zone-bd.firebasestorage.app",
+      messagingSenderId: "572445033374",
+      appId: "1:572445033374:web:ab683a7e9d57c70a1dcc8f",
+      measurementId: "G-5RMSTHTQMS"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     // Constants
     const SYSTEM = {
       usdToBdt: 129,
@@ -870,7 +889,7 @@
         searchPlaceholder: "সার্ভিস বা প্রোডাক্ট সার্চ করুন (যেমন: Gemini, Canva, Nord)...",
         catalogTitle: "ডিজিটাল সার্ভিস প্রোডাক্টস",
         catalogSuffix: "টি প্রোডাক্ট",
-        stockIn: "টি স্টক আছে",
+        stockIn: " টি স্টক আছে",
         stockOut: "স্টক শেষ",
         buyBtn: "কিনুন (Buy Now)",
         copyBtn: "কপি করুন",
@@ -895,7 +914,7 @@
         searchPlaceholder: "Search any service (e.g., Gemini, Canva, Nord)...",
         catalogTitle: "Digital Service Products",
         catalogSuffix: "Products",
-        stockIn: "In Stock",
+        stockIn: " In Stock",
         stockOut: "Out of Stock",
         buyBtn: "Buy Now",
         copyBtn: "Copy",
@@ -915,325 +934,41 @@
 
     // 28 Pre-configured Default Database (with Full Dual Language: BN & EN)
     const defaultServices = [
-      {
-        id: 1,
-        name: "Lenny Products Offers (8 plans)",
-        baseUsd: 2.00,
-        stock: 8,
-        image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80",
-        desc_bn: "৮টি প্রিমিয়াম সার্ভিস বান্ডেল আনলকড লাইসেন্স অ্যাক্টিভেশন।",
-        desc_en: "8 Premium service bundle unlocked license activation.",
-        highlight_bn: "⚠️ সতর্কতা: ইনস্ট্যান্ট ডেলিভারি ও ফুল ভ্যালিডিটি সাপোর্ট প্রদান করা হবে।",
-        highlight_en: "⚠️ Notice: Instant delivery with full warranty & validity support."
-      },
-      {
-        id: 2,
-        name: "Email Accounts (2 plans)",
-        baseUsd: 0.20,
-        stock: 3016,
-        image: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=500&q=80",
-        desc_bn: "ফুল ভেরিফাইড ওয়েবমেইল সাপোর্ট সহ ফ্রেশ বাল্ক মেইল অ্যাকাউন্ট।",
-        desc_en: "Fully verified webmail supported fresh bulk mail accounts.",
-        highlight_bn: "⚠️ সতর্কতা: ক্লিন আইপিতে তৈরি, কোনো নম্বর ভেরিফিকেশন লাগবে না।",
-        highlight_en: "⚠️ Notice: Created on clean IPs. No mobile verification required."
-      },
-      {
-        id: 3,
-        name: "Linkedin All Offers (1 plans)",
-        baseUsd: 3.50,
-        stock: 50,
-        image: "https://images.unsplash.com/photo-1611944212129-29977ae1398c?w=500&q=80",
-        desc_bn: "লিঙ্কডইন বিজনেস ও প্রিমিয়াম প্ল্যান ইনমেইল সুবিধা সহ।",
-        desc_en: "LinkedIn Business and Premium plan with full InMail credits.",
-        highlight_bn: "⚠️ সতর্কতা: নিজস্ব প্রোফাইলে সরাসরি আপগ্রেড লিংক প্রদান করা হবে।",
-        highlight_en: "⚠️ Notice: Direct official upgrade link provided for your personal profile."
-      },
-      {
-        id: 4,
-        name: "Notion All Offers (2 plans)",
-        baseUsd: 1.50,
-        stock: 153,
-        image: "https://images.unsplash.com/photo-1517842645767-c639042777db?w=500&q=80",
-        desc_bn: "নশন এআই প্লাস এবং আনলিমিটেড টিম ব্লক ওয়ার্কস্পেস লাইসেন্স।",
-        desc_en: "Notion AI Plus and unlimited team block workspace license.",
-        highlight_bn: "⚠️ সতর্কতা: ওয়ার্কস্পেস ওনার পারমিশন পরিবর্তন করবেন না।",
-        highlight_en: "⚠️ Notice: Do not modify primary workspace owner permissions."
-      },
-      {
-        id: 5,
-        name: "Gemini AI Pro 18m",
-        baseUsd: 0.80,
-        stock: 26,
-        image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=500&q=80",
-        desc_bn: "গুগল জেমিনি এডভান্সড প্রো এআই ১৮ মাসের সাবস্ক্রিপশন।",
-        desc_en: "Google Gemini Advanced Pro AI 18 months subscription access.",
-        highlight_bn: "⚠️ সতর্কতা: মেইল ইনভাইটের মাধ্যমে নিজস্ব জিমেইলে চালু হবে।",
-        highlight_en: "⚠️ Notice: Activated on your personal Gmail via official workspace invite."
-      },
-      {
-        id: 6,
-        name: "Google AI Pro 3m",
-        baseUsd: 1.00,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=500&q=80",
-        desc_bn: "৩ মাসের গুগল এআই প্রো মডেল ও ডেভেলপার লিমিট প্যাক।",
-        desc_en: "3 Months Google AI Pro model with full developer limits.",
-        highlight_bn: "⚠️ সতর্কতা: রেডি অ্যাকাউন্ট অথবা ইনভাইট লিংক প্রদান করা হবে।",
-        highlight_en: "⚠️ Notice: Delivered as verified credentials or official invite link."
-      },
-      {
-        id: 7,
-        name: "Nord VPN 3m",
-        baseUsd: 2.50,
-        stock: 12,
-        image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500&q=80",
-        desc_bn: "হাই স্পিড সিকিউর নো-লগ ভিপিএন প্রিমিয়াম অ্যাকাউন্ট।",
-        desc_en: "High-speed secure no-logs premium VPN subscription.",
-        highlight_bn: "⚠️ সতর্কতা: লগইন তথ্য পাওয়ার পর পাসওয়ার্ড পরিবর্তন নিষিদ্ধ।",
-        highlight_en: "⚠️ Notice: Changing account password or email is strictly prohibited."
-      },
-      {
-        id: 8,
-        name: "Youtube Premium 3M",
-        baseUsd: 2.50,
-        stock: 118,
-        image: "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=500&q=80",
-        desc_bn: "সম্পূর্ণ বিজ্ঞাপনমুক্ত ভিডিও ও ইউটিউব মিউজিক প্রিমিয়াম।",
-        desc_en: "Completely ad-free video streaming & YouTube Music Premium.",
-        highlight_bn: "⚠️ সতর্কতা: আপনার নিজস্ব জিমেইলে ফ্যামিলি ইনভাইট দেওয়া হবে।",
-        highlight_en: "⚠️ Notice: Official family invitation sent directly to your Gmail."
-      },
-      {
-        id: 9,
-        name: "Super Duolingo 1Y",
-        baseUsd: 0.80,
-        stock: 61,
-        image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500&q=80",
-        desc_bn: "১ বছরের সুপার ডুওলিঙ্গো আনলিমিটেড হার্টস ও অ্যাড-ফ্রি সুবিধা।",
-        desc_en: "1 Year Super Duolingo with unlimited hearts and zero ads.",
-        highlight_bn: "⚠️ সতর্কতা: যেকোনো ভাষায় আনলিমিটেড প্র্যাকটিস করতে পারবেন।",
-        highlight_en: "⚠️ Notice: Practice any language with unlimited attempts uninterrupted."
-      },
-      {
-        id: 10,
-        name: "Coursera Org + Gemini 3M",
-        baseUsd: 1.50,
-        stock: 278,
-        image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&q=80",
-        desc_bn: "কোর্সেরা ভেরিফাইড সার্টিফিকেট কোর্স এক্সেস প্যাক।",
-        desc_en: "Coursera verified certificate course access with Gemini 3M combo.",
-        highlight_bn: "⚠️ সতর্কতা: অর্গানাইজেশন ইনভাইট লিংক সরাসরি সরবরাহ করা হবে।",
-        highlight_en: "⚠️ Notice: Organization verified invitation provided immediately."
-      },
-      {
-        id: 11,
-        name: "Udemy Personal Plan 1M",
-        baseUsd: 1.60,
-        stock: 9,
-        image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=500&q=80",
-        desc_bn: "১০,০০০+ কোর্সে আনলিমিটেড পারসোনাল সাবস্ক্রিপশন।",
-        desc_en: "Unlimited learning access across 10,000+ top-rated courses.",
-        highlight_bn: "⚠️ সতর্কতা: লগইন তথ্য সরাসরি চ্যাটে প্রদান করা হবে।",
-        highlight_en: "⚠️ Notice: Verified profile login credentials sent via chat."
-      },
-      {
-        id: 12,
-        name: "Apple Music 5M",
-        baseUsd: 1.00,
-        stock: 136,
-        image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80",
-        desc_bn: "৫ মাসের অ্যাপল মিউজিক লসলেস অডিও লাইব্রেরি।",
-        desc_en: "5 Months Apple Music lossless audio & spatial streaming.",
-        highlight_bn: "⚠️ সতর্কতা: অ্যাপল আইডিতে সরাসরি সক্রিয় করা যায়।",
-        highlight_en: "⚠️ Notice: Can be linked directly to your Apple ID."
-      },
-      {
-        id: 13,
-        name: "Lovable Pro 1M - 100 Creds",
-        baseUsd: 2.50,
-        stock: 2,
-        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80",
-        desc_bn: "ফুলস্ট্যাক এআই কোডিং প্রোটোটাইপ ডেভেলপার একাউন্ট।",
-        desc_en: "Full-stack AI app builder & prototyping developer pass.",
-        highlight_bn: "⚠️ সতর্কতা: ১০০ ক্রেডিট লিমিট অন্তর্ভুক্ত থাকবে।",
-        highlight_en: "⚠️ Notice: Includes 100 fast developer credits."
-      },
-      {
-        id: 14,
-        name: "Lovable Pro Lite Account 12M",
-        baseUsd: 6.00,
-        stock: 22,
-        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80",
-        desc_bn: "১২ মাসের এক্সটেন্ডেড এআই অ্যাপ্লিকেশন মেকার লাইসেন্স।",
-        desc_en: "12 Months extended limits web app creator license.",
-        highlight_bn: "⚠️ সতর্কতা: ফুল ইমেইল এক্সেস সহ প্রোভাইড করা হবে।",
-        highlight_en: "⚠️ Notice: Delivered with full primary email ownership access."
-      },
-      {
-        id: 15,
-        name: "Autodesk Admin 3000 Panel",
-        baseUsd: 8.00,
-        stock: 6,
-        image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=500&q=80",
-        desc_bn: "অটোডেস্ক এডুকেশনাল অ্যাডমিন ম্যানেজমেন্ট ফুল কন্ট্রোল।",
-        desc_en: "Autodesk Educational Administrator management console.",
-        highlight_bn: "⚠️ সতর্কতা: ৩০০০ স্টুডেন্ট সিট ইনভাইট ক্ষমতা সম্পন্ন।",
-        highlight_en: "⚠️ Notice: Capacity to issue up to 3,000 student seats."
-      },
-      {
-        id: 16,
-        name: "Canva Pro Panel 499 Invites",
-        baseUsd: 2.50,
-        stock: 19,
-        image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80",
-        desc_bn: "ক্যানভা ব্র্যান্ড কিট ও ওনার প্যানেল (৪৯৯ ইনভাইট)।",
-        desc_en: "Canva Pro brand kit owner console with 499 team invites.",
-        highlight_bn: "⚠️ সতর্কতা: লাইফটাইম টিচার প্যানেল অ্যাক্সেস।",
-        highlight_en: "⚠️ Notice: Lifetime education teacher admin console access."
-      },
-      {
-        id: 17,
-        name: "Amazon Prime Video 6m",
-        baseUsd: 2.00,
-        stock: 30,
-        image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&q=80",
-        desc_bn: "৪কে আল্ট্রা এইচডি ওরিজিনাল সিনেমা ও সিরিজ ওয়াচিং প্রোফাইল।",
-        desc_en: "4K Ultra HD Movies & Series private streaming profile.",
-        highlight_bn: "⚠️ সতর্কতা: ১টি ডিভাইসে স্ক্রিন লগইন সাপোর্টেড।",
-        highlight_en: "⚠️ Notice: Single screen private device sign-in supported."
-      },
-      {
-        id: 18,
-        name: "Farmer Basic Plan 12M",
-        baseUsd: 4.00,
-        stock: 1,
-        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=80",
-        desc_bn: "টাস্ক কমপ্লিশন ও সোশ্যাল অটোমেশন ইউটিলিটি একাউন্ট।",
-        desc_en: "Task completion & cloud automation utility subscription.",
-        highlight_bn: "⚠️ সতর্কতা: ১২ মাসের সম্পূর্ণ ভ্যালিডিটি নিশ্চিত।",
-        highlight_en: "⚠️ Notice: Full 12-month validity guaranteed."
-      },
-      {
-        id: 19,
-        name: "Figma Pro Edu 2Y",
-        baseUsd: 4.00,
-        stock: 39,
-        image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=500&q=80",
-        desc_bn: "২ বছরের ফিগমা প্রফেশনাল এডু টিম স্পেস ও ডেভ মোড।",
-        desc_en: "2 Years Figma Professional team workspace with Dev Mode.",
-        highlight_bn: "⚠️ সতর্কতা: নিজস্ব ফিগমা অ্যাকাউন্টে এক্টিভেশন করা হবে।",
-        highlight_en: "⚠️ Notice: Directly activated on your existing Figma account."
-      },
-      {
-        id: 20,
-        name: "Adobe Express 12m",
-        baseUsd: 0.50,
-        stock: 83,
-        image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&q=80",
-        desc_bn: "সোশ্যাল মিডিয়া টেমপ্লেট ও গ্রাফিক্স ডিজাইন ক্রিয়েটর টুল।",
-        desc_en: "Social media template & graphics design cloud creator suite.",
-        highlight_bn: "⚠️ সতর্কতা: অ্যাডোবি ক্রিয়েটিভ ক্লাউড স্টোরেজ সহ।",
-        highlight_en: "⚠️ Notice: Includes Adobe Creative Cloud sync storage."
-      },
-      {
-        id: 21,
-        name: "iLovePdf Premium 1Y",
-        baseUsd: 1.00,
-        stock: 113,
-        image: "https://images.unsplash.com/photo-1568667256549-094345857637?w=500&q=80",
-        desc_bn: "আনলিমিটেড ওসিআর স্ক্যানার ও পিডিএফ টুলস স্যুট।",
-        desc_en: "Unlimited OCR document scanner & full PDF utility suite.",
-        highlight_bn: "⚠️ সতর্কতা: ওয়েব ও মোবাইল অ্যাপ দুটোতেই চলবে।",
-        highlight_en: "⚠️ Notice: Works simultaneously on Web & Mobile apps."
-      },
-      {
-        id: 22,
-        name: "MS Office 365 Org 12M",
-        baseUsd: 0.70,
-        stock: 20,
-        image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&q=80",
-        desc_bn: "ওয়ার্ড, এক্সেল ও পাওয়ারপয়েন্ট ক্লাউড এক্সেস লাইসেন্স।",
-        desc_en: "Word, Excel, PowerPoint & 1TB OneDrive cloud access.",
-        highlight_bn: "⚠️ সতর্কতা: ৫ টি ডিভাইসে সাইন ইন সাপোর্টেড।",
-        highlight_en: "⚠️ Notice: Supports simultaneous sign-in across 5 devices."
-      },
-      {
-        id: 23,
-        name: "300+ Buy-Sell Groups TG Links",
-        baseUsd: 4.00,
-        stock: 4,
-        image: "https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=500&q=80",
-        desc_bn: "সক্রিয় আন্তর্জাতিক রিসেলার ও ডিজিটাল ট্রেডিং গ্রুপ লিংক।",
-        desc_en: "Active global reseller & digital trading community list.",
-        highlight_bn: "⚠️ সতর্কতা: সরাসরি টেলিগ্রাম লিংক শিট ডেলিভারি দেওয়া হবে।",
-        highlight_en: "⚠️ Notice: Instant verified Telegram direct links sheet."
-      },
-      {
-        id: 24,
-        name: "JetBrains Edu Pack 12m",
-        baseUsd: 3.00,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80",
-        desc_bn: "সবগুলো জেটব্রেইনস আইডিই প্যাক (IntelliJ, PyCharm)।",
-        desc_en: "Complete JetBrains IDE Suite (IntelliJ, WebStorm, PyCharm).",
-        highlight_bn: "⚠️ সতর্কতা: এডুকেশনাল লাইসেন্স কি দেওয়া হবে।",
-        highlight_en: "⚠️ Notice: Official educational developer key provided."
-      },
-      {
-        id: 25,
-        name: "Muse AI 1B Token",
-        baseUsd: 1.50,
-        stock: 20,
-        image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=500&q=80",
-        desc_bn: "১ বিলিয়ন টোকেন জেনারেটর এআই প্ল্যাটফর্ম একাউন্ট।",
-        desc_en: "1 Billion token generation creative AI platform pass.",
-        highlight_bn: "⚠️ সতর্কতা: হাই স্পিড এপিআই কোটা অন্তর্ভুক্ত।",
-        highlight_en: "⚠️ Notice: High-speed developer API quota included."
-      },
-      {
-        id: 26,
-        name: "Miro Edu Panel 100 Invites",
-        baseUsd: 8.00,
-        stock: 10,
-        image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
-        desc_bn: "১০০ স্টুডেন্ট ইনভাইট ক্ষমতা সম্পন্ন মিরো হোয়াইটবোর্ড।",
-        desc_en: "Miro whiteboard with 100 student invite capacity.",
-        highlight_bn: "⚠️ সতর্কতা: লাইফটাইম টিচার এক্সেস প্রদান করা হবে।",
-        highlight_en: "⚠️ Notice: Lifetime verified educator privileges enabled."
-      },
-      {
-        id: 27,
-        name: "edX Org Premium 12M",
-        baseUsd: 1.20,
-        stock: 46,
-        image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&q=80",
-        desc_bn: "শীর্ষ বিশ্ববিদ্যালয়ের লার্নিং কোর্স মেটেরিয়াল এক্সেস।",
-        desc_en: "Top-tier global university accredited learning access.",
-        highlight_bn: "⚠️ সতর্কতা: ফুল ভ্যালিডিটি নিশ্চিত করা হবে।",
-        highlight_en: "⚠️ Notice: Full term accreditation validity guaranteed."
-      },
-      {
-        id: 28,
-        name: "Canva Pro Team Edu Invite 3Y",
-        baseUsd: 0.60,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=500&q=80",
-        desc_bn: "৩ বছরের নিজস্ব পারসোনাল ক্যানভা আইডি আপগ্রেড লিংক।",
-        desc_en: "3 Years personal Canva ID direct upgrade link.",
-        highlight_bn: "⚠️ সতর্কতা: সব প্রিমিয়াম ফন্ট, ভিডিও ও গ্রাফিক্স আনলকড।",
-        highlight_en: "⚠️ Notice: All premium design elements, fonts & exports unlocked."
-      }
+      { id: 1, name: "Lenny Products Offers (8 plans)", baseUsd: 2.00, stock: 8, image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80", desc_bn: "৮টি প্রিমিয়াম সার্ভিস বান্ডেল আনলকড লাইসেন্স অ্যাক্টিভেশন।", desc_en: "8 Premium service bundle unlocked license activation.", highlight_bn: "⚠️ সতর্কতা: ইনস্ট্যান্ট ডেলিভারি ও ফুল ভ্যালিডিটি সাপোর্ট প্রদান করা হবে।", highlight_en: "⚠️ Notice: Instant delivery with full warranty & validity support." },
+      { id: 2, name: "Email Accounts (2 plans)", baseUsd: 0.20, stock: 3016, image: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=500&q=80", desc_bn: "ফুল ভেরিফাইড ওয়েবমেইল সাপোর্ট সহ ফ্রেশ বাল্ক মেইল অ্যাকাউন্ট।", desc_en: "Fully verified webmail supported fresh bulk mail accounts.", highlight_bn: "⚠️ সতর্কতা: ক্লিন আইপিতে তৈরি, কোনো নম্বর ভেরিফিকেশন লাগবে না।", highlight_en: "⚠️ Notice: Created on clean IPs. No mobile verification required." },
+      { id: 3, name: "Linkedin All Offers (1 plans)", baseUsd: 3.50, stock: 50, image: "https://images.unsplash.com/photo-1611944212129-29977ae1398c?w=500&q=80", desc_bn: "লিঙ্কডইন বিজনেস ও প্রিমিয়াম প্ল্যান ইনমেইল সুবিধা সহ।", desc_en: "LinkedIn Business and Premium plan with full InMail credits.", highlight_bn: "⚠️ সতর্কতা: নিজস্ব প্রোফাইলে সরাসরি আপগ্রেড লিংক প্রদান করা হবে।", highlight_en: "⚠️ Notice: Direct official upgrade link provided for your personal profile." },
+      { id: 4, name: "Notion All Offers (2 plans)", baseUsd: 1.50, stock: 153, image: "https://images.unsplash.com/photo-1517842645767-c639042777db?w=500&q=80", desc_bn: "নশন এআই প্লাস এবং আনলিমিটেড টিম ব্লক ওয়ার্কস্পেস লাইসেন্স।", desc_en: "Notion AI Plus and unlimited team block workspace license.", highlight_bn: "⚠️ সতর্কতা: ওয়ার্কস্পেস ওনার পারমিশন পরিবর্তন করবেন না।", highlight_en: "⚠️ Notice: Do not modify primary workspace owner permissions." },
+      { id: 5, name: "Gemini AI Pro 18m", baseUsd: 0.80, stock: 26, image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=500&q=80", desc_bn: "গুগল জেমিনি এডভান্সড প্রো এআই ১৮ মাসের সাবস্ক্রিপশন।", desc_en: "Google Gemini Advanced Pro AI 18 months subscription access.", highlight_bn: "⚠️ সতর্কতা: মেইল ইনভাইটের মাধ্যমে নিজস্ব জিমেইলে চালু হবে।", highlight_en: "⚠️ Notice: Activated on your personal Gmail via official workspace invite." },
+      { id: 6, name: "Google AI Pro 3m", baseUsd: 1.00, stock: 5, image: "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=500&q=80", desc_bn: "৩ মাসের গুগল এআই প্রো মডেল ও ডেভেলপার লিমিট প্যাক।", desc_en: "3 Months Google AI Pro model with full developer limits.", highlight_bn: "⚠️ সতর্কতা: রেডি অ্যাকাউন্ট অথবা ইনভাইট লিংক প্রদান করা হবে।", highlight_en: "⚠️ Notice: Delivered as verified credentials or official invite link." },
+      { id: 7, name: "Nord VPN 3m", baseUsd: 2.50, stock: 12, image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500&q=80", desc_bn: "হাই স্পিড সিকিউর নো-লগ ভিপিএন প্রিমিয়াম অ্যাকাউন্ট।", desc_en: "High-speed secure no-logs premium VPN subscription.", highlight_bn: "⚠️ সতর্কতা: লগইন তথ্য পাওয়ার পর পাসওয়ার্ড পরিবর্তন নিষিদ্ধ।", highlight_en: "⚠️ Notice: Changing account password or email is strictly prohibited." },
+      { id: 8, name: "Youtube Premium 3M", baseUsd: 2.50, stock: 118, image: "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=500&q=80", desc_bn: "সম্পূর্ণ বিজ্ঞাপনমুক্ত ভিডিও ও ইউটিউব মিউজিক প্রিমিয়াম।", desc_en: "Completely ad-free video streaming & YouTube Music Premium.", highlight_bn: "⚠️ সতর্কতা: আপনার নিজস্ব জিমেইলে ফ্যামিলি ইনভাইট দেওয়া হবে।", highlight_en: "⚠️ Notice: Official family invitation sent directly to your Gmail." },
+      { id: 9, name: "Super Duolingo 1Y", baseUsd: 0.80, stock: 61, image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500&q=80", desc_bn: "১ বছরের সুপার ডুওলিঙ্গো আনলিমিটেড হার্টস ও অ্যাড-ফ্রি সুবিধা।", desc_en: "1 Year Super Duolingo with unlimited hearts and zero ads.", highlight_bn: "⚠️ সতর্কতা: যেকোনো ভাষায় আনলিমিটেড প্র্যাকটিস করতে পারবেন।", highlight_en: "⚠️ Notice: Practice any language with unlimited attempts uninterrupted." },
+      { id: 10, name: "Coursera Org + Gemini 3M", baseUsd: 1.50, stock: 278, image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&q=80", desc_bn: "কোর্সেরা ভেরিফাইড সার্টিফিকেট কোর্স এক্সেস প্যাক।", desc_en: "Coursera verified certificate course access with Gemini 3M combo.", highlight_bn: "⚠️ সতর্কতা: অর্গানাইজেশন ইনভাইট লিংক সরাসরি সরবরাহ করা হবে।", highlight_en: "⚠️ Notice: Organization verified invitation provided immediately." },
+      { id: 11, name: "Udemy Personal Plan 1M", baseUsd: 1.60, stock: 9, image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=500&q=80", desc_bn: "১০,০০০+ কোর্সে আনলিমিটেড পারসোনাল সাবস্ক্রিপশন।", desc_en: "Unlimited learning access across 10,000+ top-rated courses.", highlight_bn: "⚠️ সতর্কতা: লগইন তথ্য সরাসরি চ্যাটে প্রদান করা হবে।", highlight_en: "⚠️ Notice: Verified profile login credentials sent via chat." },
+      { id: 12, name: "Apple Music 5M", baseUsd: 1.00, stock: 136, image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80", desc_bn: "৫ মাসের অ্যাপল মিউজিক লসলেস অডিও লাইব্রেরি।", desc_en: "5 Months Apple Music lossless audio & spatial streaming.", highlight_bn: "⚠️ সতর্কতা: অ্যাপল আইডিতে সরাসরি সক্রিয় করা যায়।", highlight_en: "⚠️ Notice: Can be linked directly to your Apple ID." },
+      { id: 13, name: "Lovable Pro 1M - 100 Creds", baseUsd: 2.50, stock: 2, image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80", desc_bn: "ফুলস্ট্যাক এআই কোডিং প্রোটোটাইপ ডেভেলপার একাউন্ট।", desc_en: "Full-stack AI app builder & prototyping developer pass.", highlight_bn: "⚠️ সতর্কতা: ১০০ ক্রেডিট লিমিট অন্তর্ভুক্ত থাকবে।", highlight_en: "⚠️ Notice: Includes 100 fast developer credits." },
+      { id: 14, name: "Lovable Pro Lite Account 12M", baseUsd: 6.00, stock: 22, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80", desc_bn: "১২ মাসের এক্সটেন্ডেড এআই অ্যাপ্লিকেশন মেকার লাইসেন্স।", desc_en: "12 Months extended limits web app creator license.", highlight_bn: "⚠️ সতর্কতা: ফুল ইমেইল এক্সেস সহ প্রোভাইড করা হবে।", highlight_en: "⚠️ Notice: Delivered with full primary email ownership access." },
+      { id: 15, name: "Autodesk Admin 3000 Panel", baseUsd: 8.00, stock: 6, image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=500&q=80", desc_bn: "অটোডেস্ক এডুকেশনাল অ্যাডমিন ম্যানেজমেন্ট ফুল কন্ট্রোল।", desc_en: "Autodesk Educational Administrator management console.", highlight_bn: "⚠️ সতর্কতা: ৩০০০ স্টুডেন্ট সিট ইনভাইট ক্ষমতা সম্পন্ন।", highlight_en: "⚠️ Notice: Capacity to issue up to 3,000 student seats." },
+      { id: 16, name: "Canva Pro Panel 499 Invites", baseUsd: 2.50, stock: 19, image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80", desc_bn: "ক্যানভা ব্র্যান্ড কিট ও ওনার প্যানেল (৪৯৯ ইনভাইট)।", desc_en: "Canva Pro brand kit owner console with 499 team invites.", highlight_bn: "⚠️ সতর্কতা: লাইফটাইম টিচার প্যানেল অ্যাক্সেস।", highlight_en: "⚠️ Notice: Lifetime education teacher admin console access." },
+      { id: 17, name: "Amazon Prime Video 6m", baseUsd: 2.00, stock: 30, image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&q=80", desc_bn: "৪কে আল্ট্রা এইচডি ওরিজিনাল সিনেমা ও সিরিজ ওয়াচিং প্রোফাইল।", desc_en: "4K Ultra HD Movies & Series private streaming profile.", highlight_bn: "⚠️ সতর্কতা: ১টি ডিভাইসে স্ক্রিন লগইন সাপোর্টেড।", highlight_en: "⚠️ Notice: Single screen private device sign-in supported." },
+      { id: 18, name: "Farmer Basic Plan 12M", baseUsd: 4.00, stock: 1, image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=80", desc_bn: "টাস্ক কমপ্লিশন ও সোশ্যাল অটোমেশন ইউটিলিটি একাউন্ট।", desc_en: "Task completion & cloud automation utility subscription.", highlight_bn: "⚠️ সতর্কতা: ১২ মাসের সম্পূর্ণ ভ্যালিডিটি নিশ্চিত।", highlight_en: "⚠️ Notice: Full 12-month validity guaranteed." },
+      { id: 19, name: "Figma Pro Edu 2Y", baseUsd: 4.00, stock: 39, image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=500&q=80", desc_bn: "২ বছরের ফিগমা প্রফেশনাল এডু টিম স্পেস ও ডেভ মোড।", desc_en: "2 Years Figma Professional team workspace with Dev Mode.", highlight_bn: "⚠️ সতর্কতা: নিজস্ব ফিগমা অ্যাকাউন্টে এক্টিভেশন করা হবে।", highlight_en: "⚠️ Notice: Directly activated on your existing Figma account." },
+      { id: 20, name: "Adobe Express 12m", baseUsd: 0.50, stock: 83, image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&q=80", desc_bn: "সোশ্যাল মিডিয়া টেমপ্লেট ও গ্রাফিক্স ডিজাইন ক্রিয়েটর টুল।", desc_en: "Social media template & graphics design cloud creator suite.", highlight_bn: "⚠️ সতর্কতা: অ্যাডোবি ক্রিয়েটিভ ক্লাউড স্টোরেজ সহ।", highlight_en: "⚠️ Notice: Includes Adobe Creative Cloud sync storage." },
+      { id: 21, name: "iLovePdf Premium 1Y", baseUsd: 1.00, stock: 113, image: "https://images.unsplash.com/photo-1568667256549-094345857637?w=500&q=80", desc_bn: "আনলিমিটেড ওসিআর স্ক্যানার ও পিডিএফ টুলস স্যুট।", desc_en: "Unlimited OCR document scanner & full PDF utility suite.", highlight_bn: "⚠️ সতর্কতা: ওয়েব ও মোবাইল অ্যাপ দুটোতেই চলবে।", highlight_en: "⚠️ Notice: Works simultaneously on Web & Mobile apps." },
+      { id: 22, name: "MS Office 365 Org 12M", baseUsd: 0.70, stock: 20, image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&q=80", desc_bn: "ওয়ার্ড, এক্সেল ও পাওয়ারপয়েন্ট ক্লাউড এক্সেস লাইসেন্স।", desc_en: "Word, Excel, PowerPoint & 1TB OneDrive cloud access.", highlight_bn: "⚠️ সতর্কতা: ৫ টি ডিভাইসে সাইন ইন সাপোর্টেড।", highlight_en: "⚠️ Notice: Supports simultaneous sign-in across 5 devices." },
+      { id: 23, name: "300+ Buy-Sell Groups TG Links", baseUsd: 4.00, stock: 4, image: "https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=500&q=80", desc_bn: "সক্রিয় আন্তর্জাতিক রিসেলার ও ডিজিটাল ট্রেডিং গ্রুপ লিংক।", desc_en: "Active global reseller & digital trading community list.", highlight_bn: "⚠️ সতর্কতা: সরাসরি টেলিগ্রাম লিংক শিট ডেলিভারি দেওয়া হবে।", highlight_en: "⚠️ Notice: Instant verified Telegram direct links sheet." },
+      { id: 24, name: "JetBrains Edu Pack 12m", baseUsd: 3.00, stock: 5, image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80", desc_bn: "সবগুলো জেটব্রেইনস আইডিই প্যাক (IntelliJ, PyCharm)।", desc_en: "Complete JetBrains IDE Suite (IntelliJ, WebStorm, PyCharm).", highlight_bn: "⚠️ সতর্কতা: এডুকেশনাল লাইসেন্স কি দেওয়া হবে।", highlight_en: "⚠️ Notice: Official educational developer key provided." },
+      { id: 25, name: "Muse AI 1B Token", baseUsd: 1.50, stock: 20, image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=500&q=80", desc_bn: "১ বিলিয়ন টোকেন জেনারেটর এআই প্ল্যাটফর্ম একাউন্ট।", desc_en: "1 Billion token generation creative AI platform pass.", highlight_bn: "⚠️ সতর্কতা: হাই স্পিড এপিআই কোটা অন্তর্ভুক্ত।", highlight_en: "⚠️ Notice: High-speed developer API quota included." },
+      { id: 26, name: "Miro Edu Panel 100 Invites", baseUsd: 8.00, stock: 10, image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80", desc_bn: "১০০ স্টুডেন্ট ইনভাইট ক্ষমতা সম্পন্ন মিরো হোয়াইটবোর্ড।", desc_en: "Miro whiteboard with 100 student invite capacity.", highlight_bn: "⚠️ সতর্কতা: লাইফটাইম টিচার এক্সেস প্রদান করা হবে।", highlight_en: "⚠️ Notice: Lifetime verified educator privileges enabled." },
+      { id: 27, name: "edX Org Premium 12M", baseUsd: 1.20, stock: 46, image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&q=80", desc_bn: "শীর্ষ বিশ্ববিদ্যালয়ের লার্নিং কোর্স মেটেরিয়াল এক্সেস।", desc_en: "Top-tier global university accredited learning access.", highlight_bn: "⚠️ সতর্কতা: ফুল ভ্যালিডিটি নিশ্চিত করা হবে।", highlight_en: "⚠️ Notice: Full term accreditation validity guaranteed." },
+      { id: 28, name: "Canva Pro Team Edu Invite 3Y", baseUsd: 0.60, stock: 5, image: "https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=500&q=80", desc_bn: "৩ বছরের নিজস্ব পারসোনাল ক্যানভা আইডি আপগ্রেড লিংক।", desc_en: "3 Years personal Canva ID direct upgrade link.", highlight_bn: "⚠️ সতর্কতা: সব প্রিমিয়াম ফন্ট, ভিডিও ও গ্রাফিক্স আনলকড।", highlight_en: "⚠️ Notice: All premium design elements, fonts & exports unlocked." }
     ];
 
-    // Initialize State & Storage
-    let products = JSON.parse(localStorage.getItem('pz_products')) || defaultServices;
-    let pendingOrders = JSON.parse(localStorage.getItem('pz_pending_orders')) || [];
+    // State Variables
+    let products = defaultServices;
     let currentLang = localStorage.getItem('pz_lang') || 'bn';
     let currentTheme = localStorage.getItem('pz_theme') || 'dark';
     let activeCheckoutItem = null;
-
-    // Always keep storage updated with clean dual-language objects
-    localStorage.setItem('pz_products', JSON.stringify(products));
 
     // Theme Logic
     function applyTheme(theme) {
@@ -1266,7 +1001,6 @@
       document.getElementById('btnEn').classList.toggle('active', lang === 'en');
       document.getElementById('searchInput').placeholder = i18n[lang].searchPlaceholder;
 
-      // Translate all static texts
       document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.getAttribute('data-key');
         if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
@@ -1285,7 +1019,7 @@
     document.getElementById('menuCloseBtn').onclick = closeDrawer;
     drawerOverlay.onclick = closeDrawer;
 
-    // Render Products Grid with Language Enforcement
+    // Render Products Grid
     function renderProducts(list) {
       const grid = document.getElementById('productGrid');
       grid.innerHTML = '';
@@ -1298,7 +1032,6 @@
         const retailBdt = Math.round(retailUsd * SYSTEM.usdToBdt);
         const isOutOfStock = item.stock <= 0;
 
-        // Choose appropriate description based on active language
         const description = (currentLang === 'bn') 
           ? (item.desc_bn || item.desc || "উচ্চমানের ভেরিফাইড প্রিমিয়াম সার্ভিস।") 
           : (item.desc_en || item.desc || "High quality verified premium digital service.");
@@ -1341,7 +1074,6 @@
       document.getElementById('modalName').innerText = prod.name;
       document.getElementById('modalPricing').innerText = `$${usd} USD / ${bdt} ৳`;
 
-      // Description & Highlight based on chosen language
       const description = (currentLang === 'bn') 
         ? (prod.desc_bn || prod.desc || "উচ্চমানের ভেরিফাইড প্রিমিয়াম সার্ভিস।") 
         : (prod.desc_en || prod.desc || "High quality verified premium digital service.");
@@ -1368,7 +1100,7 @@
       setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
-    // Order Submission: Stores Pending Order for Admin Approval + Launches WhatsApp/Telegram
+    // Order Submission: Saved directly to Firebase + Opens WhatsApp/Telegram
     function confirmOrder(channel) {
       const trx = document.getElementById('trxInput').value.trim();
       if (!trx) {
@@ -1380,7 +1112,6 @@
         ? (activeCheckoutItem.highlight_bn || activeCheckoutItem.highlight || "ইনস্ট্যান্ট ডেলিভারি") 
         : (activeCheckoutItem.highlight_en || activeCheckoutItem.highlight || "Instant Delivery");
 
-      // Add to Admin Pending Queue
       const newOrderRequest = {
         orderId: 'PZ-' + Date.now().toString().slice(-6),
         productName: activeCheckoutItem.name,
@@ -1392,10 +1123,9 @@
         status: 'Pending'
       };
 
-      pendingOrders.unshift(newOrderRequest);
-      localStorage.setItem('pz_pending_orders', JSON.stringify(pendingOrders));
+      // Save directly to Firebase Realtime Database
+      db.ref('pending_orders').push(newOrderRequest);
 
-      // Construct Language-Accurate Chat Message
       let message = "";
       if (currentLang === 'bn') {
         message = 
@@ -1446,7 +1176,7 @@ Please verify the transaction and confirm the order. Thank you!`;
       renderProducts(filtered);
     }
 
-    // Sales Notification Bubble Loop with Language Support
+    // Sales Notification Bubble
     const buyers_bn = [
       "আরিফুল ইসলাম (ঢাকা)", "তানভীর আহমেদ (চট্টগ্রাম)", "মোঃ রাব্বি (সিলেট)",
       "সাকিব চৌধুরী (রাজশাহী)", "মাহমুদুল হাসান (খুলনা)", "জুবায়ের হোসেন (বরিশাল)"
@@ -1471,9 +1201,21 @@ Please verify the transaction and confirm the order. Thank you!`;
       setTimeout(() => bubble.classList.remove('active'), 5500);
     }
 
-    // Init
+    // --- REALTIME DATABASE LISTENER ---
     window.addEventListener('DOMContentLoaded', () => {
+      // First, render local default services immediately
+      renderProducts(products);
       switchLanguage(currentLang);
+
+      // Listen for Live Firebase updates
+      db.ref('products').on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          products = Object.values(data);
+          renderProducts(products);
+        }
+      });
+
       setTimeout(triggerSaleBubble, 4000);
       setInterval(triggerSaleBubble, 30000);
     });
