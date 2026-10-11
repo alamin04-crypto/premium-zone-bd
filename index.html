@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Zone BD — Digital Marketplace & Reseller Hub</title>
+
+  <!-- Google Fonts: Hind Siliguri (Bengali) + Plus Jakarta Sans & JetBrains Mono (English/Data) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root[data-theme="dark"] {
+      --bg-base: #060913;
+      --bg-surface: rgba(15, 23, 42, 0.75);
+      --bg-card: #0d1527;
+      --bg-card-hover: #13203c;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-focus: #38bdf8;
+      --text-head: #ffffff;
+      --text-body: #cbd5e1;
+      --text-muted: #64748b;
+      --primary: #38bdf8;
+      --primary-gradient: linear-gradient(135deg, #0ea5e9, #6366f1);
+      --accent-green: #10b981;
+      --bkash-color: #d11261;
+      --highlight-bg: rgba(245, 158, 11, 0.1);
+      --highlight-border: #f59e0b;
+      --highlight-text: #fde68a;
+      --glow: rgba(56, 189, 248, 0.25);
+    }
+
+    :root[data-theme="light"] {
+      --bg-base: #f8fafc;
+      --bg-surface: rgba(255, 255, 255, 0.85);
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --border-color: rgba(0, 0, 0, 0.08);
+      --border-focus: #0284c7;
+      --text-head: #0f172a;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --primary-gradient: linear-gradient(135deg, #0284c7, #4f46e5);
+      --accent-green: #059669;
+      --bkash-color: #d11261;
+      --highlight-bg: #fef3c7;
+      --highlight-border: #d97706;
+      --highlight-text: #92400e;
+      --glow: rgba(2, 132, 199, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* ফন্ট ভাঙা রোধ করতে সঠিক ফন্ট ও লাইন হাইট ফিক্স */
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      line-height: 1.6;
+      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.lang-bn {
+      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body.lang-en {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    .bg-decor {
+      position: fixed;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Sticky Navbar */
+    header {
+      background: var(--bg-surface);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #fff;
+      box-shadow: 0 4px 15px var(--glow);
+    }
+
+    .brand-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-head);
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .nav-btn:hover {
+      border-color: var(--border-focus);
+      color: var(--primary);
+    }
+
+    /* Drawer */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+    }
+    .drawer-overlay.active { display: block; }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 300px;
+      height: 100%;
+      background: var(--bg-base);
+      border-left: 1px solid var(--border-color);
+      z-index: 110;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .drawer.active { right: 0; }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+    }
+
+    .lang-switcher-row {
+      display: flex;
+      gap: 8px;
+    }
+    .lang-pill {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-head);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .lang-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #000;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      text-align: center;
+      padding: 50px 20px 25px;
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: var(--text-head);
+      line-height: 1.3;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto 30px;
+    }
+
+    .search-wrap {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .search-wrap i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+    .search-input {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      color: var(--text-head);
+      font-size: 1rem;
+      outline: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 20px var(--glow);
+    }
+
+    /* Catalog Section */
+    .store-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 30px 24px 80px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .catalog-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 14px;
+    }
+    .catalog-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-head);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .catalog-counter {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Product Cards */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+      gap: 24px;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 16px 35px var(--glow);
+    }
+
+    .card-thumb {
+      width: 100%;
+      height: 165px;
+      position: relative;
+      background: #0f172a;
+      overflow: hidden;
+    }
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .product-card:hover .card-thumb img {
+      transform: scale(1.08);
+    }
+
+    .stock-pill {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+    }
+    .stock-in {
+      background: rgba(16, 185, 129, 0.9);
+      color: #fff;
+    }
+    .stock-out {
+      background: rgba(239, 68, 68, 0.9);
+      color: #fff;
+    }
+
+    .card-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-head);
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+      min-height: 42px;
+    }
+
+    .price-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .price-usd {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .price-bdt {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--accent-green);
+    }
+
+    .buy-trigger {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--primary-gradient);
+      color: #fff;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .buy-trigger:hover {
+      opacity: 0.95;
+      transform: translateY(-2px);
+    }
+    .buy-trigger:disabled {
+      background: #475569;
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-backdrop.active { display: flex; }
+
+    .modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 22px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      position: relative;
+      animation: modalZoom 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalZoom {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .modal-details {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      margin: 14px 0;
+    }
+
+    .modal-alert {
+      background: var(--highlight-bg);
+      border-left: 4px solid var(--highlight-border);
+      padding: 12px 14px;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.85rem;
+      color: var(--highlight-text);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .bkash-widget {
+      background: linear-gradient(135deg, rgba(209, 18, 97, 0.15), var(--bg-surface));
+      border: 1px solid rgba(209, 18, 97, 0.35);
+      padding: 12px 16px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .bkash-btn {
+      background: var(--bkash-color);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-head);
+    }
+    .trx-input {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-head);
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .trx-input:focus { border-color: var(--primary); }
+
+    .screenshot-notice {
+      background: rgba(14, 165, 233, 0.1);
+      border: 1px dashed var(--primary);
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      color: var(--text-head);
+      margin-bottom: 18px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      line-height: 1.45;
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .action-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      color: white;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-wa { background: #25d366; }
+    .btn-tg { background: #0088cc; }
+
+    /* Sales Bubble Notification */
+    .sales-bubble {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 12px 18px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 100;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sales-bubble.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .bubble-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    /* Floating WhatsApp Button */
+    .float-wa {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #25d366;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      z-index: 95;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+    .float-wa:hover { transform: scale(1.1); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-weight: 600;
+      z-index: 300;
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-color);
+      padding: 40px 24px 25px;
+      margin-top: auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin: 14px auto;
+      line-height: 1.6;
+    }
+    .footer-copy {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body class="lang-bn">
+
+  <div class="bg-decor"></div>
+
+  <!-- Navbar -->
+  <header>
+    <a href="#" class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-crown"></i></div>
+      <div class="brand-title">Premium Zone BD</div>
+    </a>
+    <div class="nav-actions">
+      <button class="nav-btn" id="themeToggleBtn" title="Dark / Light Mode">
+        <i class="fa-solid fa-sun" id="themeIcon"></i>
+      </button>
+      <button class="nav-btn" id="menuOpenBtn" title="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Side Navigation Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="drawer" id="sideDrawer">
+    <div class="drawer-header">
+      <h3 style="color:var(--text-head);" data-key="menuHeading">মেনু ও সেটিংস</h3>
+      <button style="background:none; border:none; color:var(--text-muted); font-size:1.4rem; cursor:pointer;" id="menuCloseBtn">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;" data-key="langLabel">ভাষা পরিবর্তন করুন / Language</p>
+      <div class="lang-switcher-row">
+        <button class="lang-pill active" id="btnBn" onclick="switchLanguage('bn')">বাংলা</button>
+        <button class="lang-pill" id="btnEn" onclick="switchLanguage('en')">English</button>
+      </div>
+    </div>
+
+    <div style="margin-top:auto; font-size:0.85rem; color:var(--text-muted);">
+      <p><i class="fa-brands fa-whatsapp"></i> +880 1872-810600</p>
+      <p style="margin-top:4px;"><i class="fa-brands fa-telegram"></i> @amin_support99</p>
+    </div>
+  </aside>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-tag">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span data-key="heroTag">১০০% ভেরিফাইড ও অফিসিয়াল সার্ভিস</span>
+    </div>
+    <h1 class="hero-title" data-key="heroTitle">আপনার পছন্দের প্রিমিয়াম ডিজিটাল সার্ভিস গ্রহণ করুন</h1>
+    <p class="hero-sub" data-key="heroSub">এআই মডেল, এডুকেশনাল প্যানেল, ভিপিএন এবং প্রয়োজনীয় সাবস্ক্রিপশনসমূহ সাশ্রয়ী মূল্যে বিকাশ পেমেন্টে উপভোগ করুন।</p>
+    
+    <div class="search-wrap">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" class="search-input" placeholder="সার্ভিস বা প্রোডাক্ট সার্চ করুন (যেমন: Gemini, Canva, Nord)..." onkeyup="filterServices()">
+    </div>
+  </section>
+
+  <!-- Products Catalog -->
+  <main class="store-container">
+    <div class="catalog-bar">
+      <h2 class="catalog-title">
+        <i class="fa-solid fa-cubes" style="color:var(--primary);"></i>
+        <span data-key="catalogTitle">ডিজিটাল সার্ভিস প্রোডাক্টস</span>
+      </h2>
+      <div class="catalog-counter mono" id="itemCount">২৮ টি প্রোডাক্ট</div>
+    </div>
+
+    <div class="products-grid" id="productGrid">
+      <!-- Loaded dynamically via JavaScript -->
+    </div>
+  </main>
+
+  <!-- Order / Checkout Modal -->
+  <div class="modal-backdrop" id="checkoutModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <h3 id="modalName" style="color:var(--text-head); font-size:1.3rem;">Product Name</h3>
+      <div id="modalPricing" class="mono" style="color:var(--accent-green); font-size:1.25rem; font-weight:800; margin:6px 0 12px;">$0.00 USD / 0 ৳</div>
+
+      <div class="modal-details" id="modalDesc">Detailed description here...</div>
+
+      <div class="modal-alert" id="modalAlert">
+        <!-- Highlight note dynamically populated -->
+      </div>
+
+      <div class="bkash-widget">
+        <div>
+          <span style="background:var(--bkash-color); color:white; font-size:0.75rem; padding:2px 8px; border-radius:4px; font-weight:bold;">bKash Personal</span>
+          <div class="mono" style="font-weight:700; font-size:1.15rem; color:var(--text-head); margin-top:2px;" id="bkashNum">01872810600</div>
+        </div>
+        <button class="bkash-btn" onclick="copyBkash()" data-key="copyBtn">কপি করুন</button>
+      </div>
+
+      <div class="input-group">
+        <label data-key="trxLabel">Transaction ID (TrxID) দিন: *</label>
+        <input type="text" id="trxInput" class="trx-input mono" placeholder="9J72AA56LK">
+      </div>
+
+      <div class="screenshot-notice">
+        <i class="fa-solid fa-circle-info" style="color:var(--primary); font-size:1.2rem; flex-shrink:0;"></i>
+        <span data-key="screenNotice">📌 বিশেষ দ্রষ্টব্য: আপনার পেমেন্টের স্ক্রিনশটটি চ্যাটে (WhatsApp বা Telegram) প্রবেশ করার পর সরাসরি পাঠিয়ে দিন।</span>
+      </div>
+
+      <div class="order-actions">
+        <button class="action-btn btn-wa" onclick="confirmOrder('wa')">
+          <i class="fa-brands fa-whatsapp"></i> <span data-key="btnWa">WhatsApp Order</span>
+        </button>
+        <button class="action-btn btn-tg" onclick="confirmOrder('tg')">
+          <i class="fa-brands fa-telegram"></i> <span data-key="btnTg">Telegram Order</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real-Time Sales Notification Bubble -->
+  <div class="sales-bubble" id="salesBubble">
+    <div class="bubble-avatar" id="bubbleInitial">R</div>
+    <div style="font-size:0.85rem; line-height:1.35;">
+      <div style="color:var(--text-head); font-weight:700;">
+        <span id="bubbleBuyer">রাকিবুল হাসান</span> <span data-key="bubbleAction">এইমাত্র ক্রয় করেছেন</span>
+      </div>
+      <div style="color:var(--primary); font-weight:600;" id="bubbleService">Gemini AI Pro 18m</div>
+      <div style="font-size:0.72rem; color:var(--text-muted);" data-key="bubbleStatus">ভেরিফাইড অর্ডার • কিছুক্ষণ আগে</div>
+    </div>
+  </div>
+
+  <!-- Floating WhatsApp Chat -->
+  <a href="https://wa.me/8801872810600?text=Hello%20Premium%20Zone%20BD,%20I%20need%20assistance." target="_blank" class="float-wa" title="Live WhatsApp Chat">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">বিকাশ নম্বর কপি করা হয়েছে! ✔</div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="brand-title" style="font-size:1.4rem; margin-bottom:8px;">Premium Zone BD</div>
+    <p style="font-size:0.9rem; color:var(--text-muted);" data-key="footerTagline">বাংলাদেশের অন্যতম নির্ভরযোগ্য রিসেলার এবং ডিজিটাল সার্ভিস প্ল্যাটফর্ম।</p>
+    
+    <div class="footer-desc" data-key="footerDisclaimer">
+      <b>কপিরাইট ও আইনি দায়মুক্তি:</b> এই প্ল্যাটফর্মে উল্লিখিত সকল আন্তর্জাতিক সফটওয়্যার ও সার্ভিস (Google, Microsoft, Canva, Adobe ইত্যাদি) তাদের স্ব-স্ব মালিকানাধীন প্রতিষ্ঠানের রেজিস্টার্ড ট্রেডমার্ক। আমরা শুধুমাত্র অনুমোদিত রিসেলার ইনভাইট, শিক্ষামূলক এক্সেস এবং সাবস্ক্রিপশন সার্ভিস প্রদান করি।
+    </div>
+
+    <div class="footer-copy mono" data-key="footerRights">
+      © ২০২৬ Premium Zone BD. সর্বস্বত্ব সংরক্ষিত।
+    </div>
+  </footer>
+
+  <script>
+    // Constants
+    const SYSTEM = {
+      usdToBdt: 129,
+      markup: 0.50, // 50% Profit
+      bkash: "01872810600",
+      wa: "8801872810600",
+      tg: "amin_support99"
+    };
+
+    // Dictionary for 100% Bilingual Support (No mixed languages)
+    const i18n = {
+      bn: {
+        menuHeading: "মেনু ও সেটিংস",
+        langLabel: "ভাষা পরিবর্তন করুন / Language",
+        heroTag: "১০০% ভেরিফাইড ও অফিসিয়াল সার্ভিস",
+        heroTitle: "আপনার পছন্দের প্রিমিয়াম ডিজিটাল সার্ভিস গ্রহণ করুন",
+        heroSub: "এআই মডেল, এডুকেশনাল প্যানেল, ভিপিএন এবং প্রয়োজনীয় সাবস্ক্রিপশনসমূহ সাশ্রয়ী মূল্যে বিকাশ পেমেন্টে উপভোগ করুন।",
+        searchPlaceholder: "সার্ভিস বা প্রোডাক্ট সার্চ করুন (যেমন: Gemini, Canva, Nord)...",
+        catalogTitle: "ডিজিটাল সার্ভিস প্রোডাক্টস",
+        catalogSuffix: "টি প্রোডাক্ট",
+        stockIn: "টি স্টক আছে",
+        stockOut: "স্টক শেষ",
+        buyBtn: "কিনুন (Buy Now)",
+        copyBtn: "কপি করুন",
+        copied: "কপি হয়েছে! ✔",
+        trxLabel: "Transaction ID (TrxID) দিন: *",
+        screenNotice: "📌 বিশেষ দ্রষ্টব্য: আপনার পেমেন্টের স্ক্রিনশটটি চ্যাটে (WhatsApp বা Telegram) প্রবেশ করার পর সরাসরি পাঠিয়ে দিন।",
+        btnWa: "WhatsApp এ অর্ডার করুন",
+        btnTg: "Telegram এ অর্ডার করুন",
+        bubbleAction: "এইমাত্র ক্রয় করেছেন",
+        bubbleStatus: "ভেরিফাইড অর্ডার • কিছুক্ষণ আগে",
+        toastCopied: "বিকাশ নম্বর কপি করা হয়েছে! ✔",
+        footerTagline: "বাংলাদেশের অন্যতম নির্ভরযোগ্য রিসেলার এবং ডিজিটাল সার্ভিস প্ল্যাটফর্ম।",
+        footerDisclaimer: "<b>কপিরাইট ও আইনি দায়মুক্তি:</b> এই প্ল্যাটফর্মে উল্লিখিত সকল আন্তর্জাতিক সফটওয়্যার ও সার্ভিস (Google, Microsoft, Canva, Adobe ইত্যাদি) তাদের স্ব-স্ব মালিকানাধীন প্রতিষ্ঠানের রেজিস্টার্ড ট্রেডমার্ক। আমরা শুধুমাত্র অনুমোদিত রিসেলার ইনভাইট, শিক্ষামূলক এক্সেস এবং সাবস্ক্রিপশন সার্ভিস প্রদান করি।",
+        footerRights: "© ২০২৬ Premium Zone BD. সর্বস্বত্ব সংরক্ষিত।"
+      },
+      en: {
+        menuHeading: "Menu & Settings",
+        langLabel: "Change Language",
+        heroTag: "100% Verified & Official Services",
+        heroTitle: "Get Your Premium Digital Services At The Best Rates",
+        heroSub: "Access AI tools, Edu panels, VPNs, and software subscriptions with instant delivery via bKash payment.",
+        searchPlaceholder: "Search any service (e.g., Gemini, Canva, Nord)...",
+        catalogTitle: "Digital Service Products",
+        catalogSuffix: "Products",
+        stockIn: "In Stock",
+        stockOut: "Out of Stock",
+        buyBtn: "Buy Now",
+        copyBtn: "Copy",
+        copied: "Copied! ✔",
+        trxLabel: "Enter Transaction ID (TrxID): *",
+        screenNotice: "📌 Notice: Please send your payment screenshot directly once inside the chat (WhatsApp or Telegram).",
+        btnWa: "Order via WhatsApp",
+        btnTg: "Order via Telegram",
+        bubbleAction: "just purchased",
+        bubbleStatus: "Verified Purchase • Just now",
+        toastCopied: "bKash Number Copied! ✔",
+        footerTagline: "Bangladesh's Most Trusted Digital Reseller Platform.",
+        footerDisclaimer: "<b>Disclaimer & Copyright Notice:</b> All trademarks, service marks, and company names mentioned (Google, Canva, Notion, Adobe, etc.) are the property of their respective owners. We only distribute verified educational passes, team invites, and subscriptions.",
+        footerRights: "© 2026 Premium Zone BD. All Rights Reserved."
+      }
+    };
+
+    // 28 Pre-configured Default Database (with Full Dual Language: BN & EN)
+    const defaultServices = [
+      {
+        id: 1,
+        name: "Lenny Products Offers (8 plans)",
+        baseUsd: 2.00,
+        stock: 8,
+        image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80",
+        desc_bn: "৮টি প্রিমিয়াম সার্ভিস বান্ডেল আনলকড লাইসেন্স অ্যাক্টিভেশন।",
+        desc_en: "8 Premium service bundle unlocked license activation.",
+        highlight_bn: "⚠️ সতর্কতা: ইনস্ট্যান্ট ডেলিভারি ও ফুল ভ্যালিডিটি সাপোর্ট প্রদান করা হবে।",
+        highlight_en: "⚠️ Notice: Instant delivery with full warranty & validity support."
+      },
+      {
+        id: 2,
+        name: "Email Accounts (2 plans)",
+        baseUsd: 0.20,
+        stock: 3016,
+        image: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=500&q=80",
+        desc_bn: "ফুল ভেরিফাইড ওয়েবমেইল সাপোর্ট সহ ফ্রেশ বাল্ক মেইল অ্যাকাউন্ট।",
+        desc_en: "Fully verified webmail supported fresh bulk mail accounts.",
+        highlight_bn: "⚠️ সতর্কতা: ক্লিন আইপিতে তৈরি, কোনো নম্বর ভেরিফিকেশন লাগবে না।",
+        highlight_en: "⚠️ Notice: Created on clean IPs. No mobile verification required."
+      },
+      {
+        id: 3,
+        name: "Linkedin All Offers (1 plans)",
+        baseUsd: 3.50,
+        stock: 50,
+        image: "https://images.unsplash.com/photo-1611944212129-29977ae1398c?w=500&q=80",
+        desc_bn: "লিঙ্কডইন বিজনেস ও প্রিমিয়াম প্ল্যান ইনমেইল সুবিধা সহ।",
+        desc_en: "LinkedIn Business and Premium plan with full InMail credits.",
+        highlight_bn: "⚠️ সতর্কতা: নিজস্ব প্রোফাইলে সরাসরি আপগ্রেড লিংক প্রদান করা হবে।",
+        highlight_en: "⚠️ Notice: Direct official upgrade link provided for your personal profile."
+      },
+      {
+        id: 4,
+        name: "Notion All Offers (2 plans)",
+        baseUsd: 1.50,
+        stock: 153,
+        image: "https://images.unsplash.com/photo-1517842645767-c639042777db?w=500&q=80",
+        desc_bn: "নশন এআই প্লাস এবং আনলিমিটেড টিম ব্লক ওয়ার্কস্পেস লাইসেন্স।",
+        desc_en: "Notion AI Plus and unlimited team block workspace license.",
+        highlight_bn: "⚠️ সতর্কতা: ওয়ার্কস্পেস ওনার পারমিশন পরিবর্তন করবেন না।",
+        highlight_en: "⚠️ Notice: Do not modify primary workspace owner permissions."
+      },
+      {
+        id: 5,
+        name: "Gemini AI Pro 18m",
+        baseUsd: 0.80,
+        stock: 26,
+        image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=500&q=80",
+        desc_bn: "গুগল জেমিনি এডভান্সড প্রো এআই ১৮ মাসের সাবস্ক্রিপশন।",
+        desc_en: "Google Gemini Advanced Pro AI 18 months subscription access.",
+        highlight_bn: "⚠️ সতর্কতা: মেইল ইনভাইটের মাধ্যমে নিজস্ব জিমেইলে চালু হবে।",
+        highlight_en: "⚠️ Notice: Activated on your personal Gmail via official workspace invite."
+      },
+      {
+        id: 6,
+        name: "Google AI Pro 3m",
+        baseUsd: 1.00,
+        stock: 5,
+        image: "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=500&q=80",
+        desc_bn: "৩ মাসের গুগল এআই প্রো মডেল ও ডেভেলপার লিমিট প্যাক।",
+        desc_en: "3 Months Google AI Pro model with full developer limits.",
+        highlight_bn: "⚠️ সতর্কতা: রেডি অ্যাকাউন্ট অথবা ইনভাইট লিংক প্রদান করা হবে।",
+        highlight_en: "⚠️ Notice: Delivered as verified credentials or official invite link."
+      },
+      {
+        id: 7,
+        name: "Nord VPN 3m",
+        baseUsd: 2.50,
+        stock: 12,
+        image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500&q=80",
+        desc_bn: "হাই স্পিড সিকিউর নো-লগ ভিপিএন প্রিমিয়াম অ্যাকাউন্ট।",
+        desc_en: "High-speed secure no-logs premium VPN subscription.",
+        highlight_bn: "⚠️ সতর্কতা: লগইন তথ্য পাওয়ার পর পাসওয়ার্ড পরিবর্তন নিষিদ্ধ।",
+        highlight_en: "⚠️ Notice: Changing account password or email is strictly prohibited."
+      },
+      {
+        id: 8,
+        name: "Youtube Premium 3M",
+        baseUsd: 2.50,
+        stock: 118,
+        image: "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=500&q=80",
+        desc_bn: "সম্পূর্ণ বিজ্ঞাপনমুক্ত ভিডিও ও ইউটিউব মিউজিক প্রিমিয়াম।",
+        desc_en: "Completely ad-free video streaming & YouTube Music Premium.",
+        highlight_bn: "⚠️ সতর্কতা: আপনার নিজস্ব জিমেইলে ফ্যামিলি ইনভাইট দেওয়া হবে।",
+        highlight_en: "⚠️ Notice: Official family invitation sent directly to your Gmail."
+      },
+      {
+        id: 9,
+        name: "Super Duolingo 1Y",
+        baseUsd: 0.80,
+        stock: 61,
+        image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500&q=80",
+        desc_bn: "১ বছরের সুপার ডুওলিঙ্গো আনলিমিটেড হার্টস ও অ্যাড-ফ্রি সুবিধা।",
+        desc_en: "1 Year Super Duolingo with unlimited hearts and zero ads.",
+        highlight_bn: "⚠️ সতর্কতা: যেকোনো ভাষায় আনলিমিটেড প্র্যাকটিস করতে পারবেন।",
+        highlight_en: "⚠️ Notice: Practice any language with unlimited attempts uninterrupted."
+      },
+      {
+        id: 10,
+        name: "Coursera Org + Gemini 3M",
+        baseUsd: 1.50,
+        stock: 278,
+        image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&q=80",
+        desc_bn: "কোর্সেরা ভেরিফাইড সার্টিফিকেট কোর্স এক্সেস প্যাক।",
+        desc_en: "Coursera verified certificate course access with Gemini 3M combo.",
+        highlight_bn: "⚠️ সতর্কতা: অর্গানাইজেশন ইনভাইট লিংক সরাসরি সরবরাহ করা হবে।",
+        highlight_en: "⚠️ Notice: Organization verified invitation provided immediately."
+      },
+      {
+        id: 11,
+        name: "Udemy Personal Plan 1M",
+        baseUsd: 1.60,
+        stock: 9,
+        image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=500&q=80",
+        desc_bn: "১০,০০০+ কোর্সে আনলিমিটেড পারসোনাল সাবস্ক্রিপশন।",
+        desc_en: "Unlimited learning access across 10,000+ top-rated courses.",
+        highlight_bn: "⚠️ সতর্কতা: লগইন তথ্য সরাসরি চ্যাটে প্রদান করা হবে।",
+        highlight_en: "⚠️ Notice: Verified profile login credentials sent via chat."
+      },
+      {
+        id: 12,
+        name: "Apple Music 5M",
+        baseUsd: 1.00,
+        stock: 136,
+        image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80",
+        desc_bn: "৫ মাসের অ্যাপল মিউজিক লসলেস অডিও লাইব্রেরি।",
+        desc_en: "5 Months Apple Music lossless audio & spatial streaming.",
+        highlight_bn: "⚠️ সতর্কতা: অ্যাপল আইডিতে সরাসরি সক্রিয় করা যায়।",
+        highlight_en: "⚠️ Notice: Can be linked directly to your Apple ID."
+      },
+      {
+        id: 13,
+        name: "Lovable Pro 1M - 100 Creds",
+        baseUsd: 2.50,
+        stock: 2,
+        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80",
+        desc_bn: "ফুলস্ট্যাক এআই কোডিং প্রোটোটাইপ ডেভেলপার একাউন্ট।",
+        desc_en: "Full-stack AI app builder & prototyping developer pass.",
+        highlight_bn: "⚠️ সতর্কতা: ১০০ ক্রেডিট লিমিট অন্তর্ভুক্ত থাকবে।",
+        highlight_en: "⚠️ Notice: Includes 100 fast developer credits."
+      },
+      {
+        id: 14,
+        name: "Lovable Pro Lite Account 12M",
+        baseUsd: 6.00,
+        stock: 22,
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80",
+        desc_bn: "১২ মাসের এক্সটেন্ডেড এআই অ্যাপ্লিকেশন মেকার লাইসেন্স।",
+        desc_en: "12 Months extended limits web app creator license.",
+        highlight_bn: "⚠️ সতর্কতা: ফুল ইমেইল এক্সেস সহ প্রোভাইড করা হবে।",
+        highlight_en: "⚠️ Notice: Delivered with full primary email ownership access."
+      },
+      {
+        id: 15,
+        name: "Autodesk Admin 3000 Panel",
+        baseUsd: 8.00,
+        stock: 6,
+        image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=500&q=80",
+        desc_bn: "অটোডেস্ক এডুকেশনাল অ্যাডমিন ম্যানেজমেন্ট ফুল কন্ট্রোল।",
+        desc_en: "Autodesk Educational Administrator management console.",
+        highlight_bn: "⚠️ সতর্কতা: ৩০০০ স্টুডেন্ট সিট ইনভাইট ক্ষমতা সম্পন্ন।",
+        highlight_en: "⚠️ Notice: Capacity to issue up to 3,000 student seats."
+      },
+      {
+        id: 16,
+        name: "Canva Pro Panel 499 Invites",
+        baseUsd: 2.50,
+        stock: 19,
+        image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80",
+        desc_bn: "ক্যানভা ব্র্যান্ড কিট ও ওনার প্যানেল (৪৯৯ ইনভাইট)।",
+        desc_en: "Canva Pro brand kit owner console with 499 team invites.",
+        highlight_bn: "⚠️ সতর্কতা: লাইফটাইম টিচার প্যানেল অ্যাক্সেস।",
+        highlight_en: "⚠️ Notice: Lifetime education teacher admin console access."
+      },
+      {
+        id: 17,
+        name: "Amazon Prime Video 6m",
+        baseUsd: 2.00,
+        stock: 30,
+        image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&q=80",
+        desc_bn: "৪কে আল্ট্রা এইচডি ওরিজিনাল সিনেমা ও সিরিজ ওয়াচিং প্রোফাইল।",
+        desc_en: "4K Ultra HD Movies & Series private streaming profile.",
+        highlight_bn: "⚠️ সতর্কতা: ১টি ডিভাইসে স্ক্রিন লগইন সাপোর্টেড।",
+        highlight_en: "⚠️ Notice: Single screen private device sign-in supported."
+      },
+      {
+        id: 18,
+        name: "Farmer Basic Plan 12M",
+        baseUsd: 4.00,
+        stock: 1,
+        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=80",
+        desc_bn: "টাস্ক কমপ্লিশন ও সোশ্যাল অটোমেশন ইউটিলিটি একাউন্ট।",
+        desc_en: "Task completion & cloud automation utility subscription.",
+        highlight_bn: "⚠️ সতর্কতা: ১২ মাসের সম্পূর্ণ ভ্যালিডিটি নিশ্চিত।",
+        highlight_en: "⚠️ Notice: Full 12-month validity guaranteed."
+      },
+      {
+        id: 19,
+        name: "Figma Pro Edu 2Y",
+        baseUsd: 4.00,
+        stock: 39,
+        image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=500&q=80",
+        desc_bn: "২ বছরের ফিগমা প্রফেশনাল এডু টিম স্পেস ও ডেভ মোড।",
+        desc_en: "2 Years Figma Professional team workspace with Dev Mode.",
+        highlight_bn: "⚠️ সতর্কতা: নিজস্ব ফিগমা অ্যাকাউন্টে এক্টিভেশন করা হবে।",
+        highlight_en: "⚠️ Notice: Directly activated on your existing Figma account."
+      },
+      {
+        id: 20,
+        name: "Adobe Express 12m",
+        baseUsd: 0.50,
+        stock: 83,
+        image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&q=80",
+        desc_bn: "সোশ্যাল মিডিয়া টেমপ্লেট ও গ্রাফিক্স ডিজাইন ক্রিয়েটর টুল।",
+        desc_en: "Social media template & graphics design cloud creator suite.",
+        highlight_bn: "⚠️ সতর্কতা: অ্যাডোবি ক্রিয়েটিভ ক্লাউড স্টোরেজ সহ।",
+        highlight_en: "⚠️ Notice: Includes Adobe Creative Cloud sync storage."
+      },
+      {
+        id: 21,
+        name: "iLovePdf Premium 1Y",
+        baseUsd: 1.00,
+        stock: 113,
+        image: "https://images.unsplash.com/photo-1568667256549-094345857637?w=500&q=80",
+        desc_bn: "আনলিমিটেড ওসিআর স্ক্যানার ও পিডিএফ টুলস স্যুট।",
+        desc_en: "Unlimited OCR document scanner & full PDF utility suite.",
+        highlight_bn: "⚠️ সতর্কতা: ওয়েব ও মোবাইল অ্যাপ দুটোতেই চলবে।",
+        highlight_en: "⚠️ Notice: Works simultaneously on Web & Mobile apps."
+      },
+      {
+        id: 22,
+        name: "MS Office 365 Org 12M",
+        baseUsd: 0.70,
+        stock: 20,
+        image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&q=80",
+        desc_bn: "ওয়ার্ড, এক্সেল ও পাওয়ারপয়েন্ট ক্লাউড এক্সেস লাইসেন্স।",
+        desc_en: "Word, Excel, PowerPoint & 1TB OneDrive cloud access.",
+        highlight_bn: "⚠️ সতর্কতা: ৫ টি ডিভাইসে সাইন ইন সাপোর্টেড।",
+        highlight_en: "⚠️ Notice: Supports simultaneous sign-in across 5 devices."
+      },
+      {
+        id: 23,
+        name: "300+ Buy-Sell Groups TG Links",
+        baseUsd: 4.00,
+        stock: 4,
+        image: "https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=500&q=80",
+        desc_bn: "সক্রিয় আন্তর্জাতিক রিসেলার ও ডিজিটাল ট্রেডিং গ্রুপ লিংক।",
+        desc_en: "Active global reseller & digital trading community list.",
+        highlight_bn: "⚠️ সতর্কতা: সরাসরি টেলিগ্রাম লিংক শিট ডেলিভারি দেওয়া হবে।",
+        highlight_en: "⚠️ Notice: Instant verified Telegram direct links sheet."
+      },
+      {
+        id: 24,
+        name: "JetBrains Edu Pack 12m",
+        baseUsd: 3.00,
+        stock: 5,
+        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80",
+        desc_bn: "সবগুলো জেটব্রেইনস আইডিই প্যাক (IntelliJ, PyCharm)।",
+        desc_en: "Complete JetBrains IDE Suite (IntelliJ, WebStorm, PyCharm).",
+        highlight_bn: "⚠️ সতর্কতা: এডুকেশনাল লাইসেন্স কি দেওয়া হবে।",
+        highlight_en: "⚠️ Notice: Official educational developer key provided."
+      },
+      {
+        id: 25,
+        name: "Muse AI 1B Token",
+        baseUsd: 1.50,
+        stock: 20,
+        image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=500&q=80",
+        desc_bn: "১ বিলিয়ন টোকেন জেনারেটর এআই প্ল্যাটফর্ম একাউন্ট।",
+        desc_en: "1 Billion token generation creative AI platform pass.",
+        highlight_bn: "⚠️ সতর্কতা: হাই স্পিড এপিআই কোটা অন্তর্ভুক্ত।",
+        highlight_en: "⚠️ Notice: High-speed developer API quota included."
+      },
+      {
+        id: 26,
+        name: "Miro Edu Panel 100 Invites",
+        baseUsd: 8.00,
+        stock: 10,
+        image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
+        desc_bn: "১০০ স্টুডেন্ট ইনভাইট ক্ষমতা সম্পন্ন মিরো হোয়াইটবোর্ড।",
+        desc_en: "Miro whiteboard with 100 student invite capacity.",
+        highlight_bn: "⚠️ সতর্কতা: লাইফটাইম টিচার এক্সেস প্রদান করা হবে।",
+        highlight_en: "⚠️ Notice: Lifetime verified educator privileges enabled."
+      },
+      {
+        id: 27,
+        name: "edX Org Premium 12M",
+        baseUsd: 1.20,
+        stock: 46,
+        image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&q=80",
+        desc_bn: "শীর্ষ বিশ্ববিদ্যালয়ের লার্নিং কোর্স মেটেরিয়াল এক্সেস।",
+        desc_en: "Top-tier global university accredited learning access.",
+        highlight_bn: "⚠️ সতর্কতা: ফুল ভ্যালিডিটি নিশ্চিত করা হবে।",
+        highlight_en: "⚠️ Notice: Full term accreditation validity guaranteed."
+      },
+      {
+        id: 28,
+        name: "Canva Pro Team Edu Invite 3Y",
+        baseUsd: 0.60,
+        stock: 5,
+        image: "https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=500&q=80",
+        desc_bn: "৩ বছরের নিজস্ব পারসোনাল ক্যানভা আইডি আপগ্রেড লিংক।",
+        desc_en: "3 Years personal Canva ID direct upgrade link.",
+        highlight_bn: "⚠️ সতর্কতা: সব প্রিমিয়াম ফন্ট, ভিডিও ও গ্রাফিক্স আনলকড।",
+        highlight_en: "⚠️ Notice: All premium design elements, fonts & exports unlocked."
+      }
+    ];
+
+    // Initialize State & Storage
+    let products = JSON.parse(localStorage.getItem('pz_products')) || defaultServices;
+    let pendingOrders = JSON.parse(localStorage.getItem('pz_pending_orders')) || [];
+    let currentLang = localStorage.getItem('pz_lang') || 'bn';
+    let currentTheme = localStorage.getItem('pz_theme') || 'dark';
+    let activeCheckoutItem = null;
+
+    // Always keep storage updated with clean dual-language objects
+    localStorage.setItem('pz_products', JSON.stringify(products));
+
+    // Theme Logic
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('pz_theme', theme);
+      const icon = document.getElementById('themeIcon');
+      if (theme === 'light') {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+    }
+    applyTheme(currentTheme);
+
+    document.getElementById('themeToggleBtn').onclick = () => {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(currentTheme);
+    };
+
+    // 100% Strict Dual-Language Switcher
+    function switchLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('pz_lang', lang);
+
+      document.body.className = (lang === 'bn') ? 'lang-bn' : 'lang-en';
+
+      document.getElementById('btnBn').classList.toggle('active', lang === 'bn');
+      document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+      document.getElementById('searchInput').placeholder = i18n[lang].searchPlaceholder;
+
+      // Translate all static texts
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+      });
+
+      renderProducts(products);
+      closeDrawer();
+    }
+
+    // Drawer Logic
+    const sideDrawer = document.getElementById('sideDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const openDrawer = () => { sideDrawer.classList.add('active'); drawerOverlay.classList.add('active'); };
+    const closeDrawer = () => { sideDrawer.classList.remove('active'); drawerOverlay.classList.remove('active'); };
+    document.getElementById('menuOpenBtn').onclick = openDrawer;
+    document.getElementById('menuCloseBtn').onclick = closeDrawer;
+    drawerOverlay.onclick = closeDrawer;
+
+    // Render Products Grid with Language Enforcement
+    function renderProducts(list) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      
+      const countLabel = (currentLang === 'bn') ? `${list.length} ${i18n.bn.catalogSuffix}` : `${list.length} ${i18n.en.catalogSuffix}`;
+      document.getElementById('itemCount').innerText = countLabel;
+
+      list.forEach(item => {
+        const retailUsd = (item.baseUsd * (1 + SYSTEM.markup)).toFixed(2);
+        const retailBdt = Math.round(retailUsd * SYSTEM.usdToBdt);
+        const isOutOfStock = item.stock <= 0;
+
+        // Choose appropriate description based on active language
+        const description = (currentLang === 'bn') 
+          ? (item.desc_bn || item.desc || "উচ্চমানের ভেরিফাইড প্রিমিয়াম সার্ভিস।") 
+          : (item.desc_en || item.desc || "High quality verified premium digital service.");
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div class="card-thumb">
+            <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80'">
+            <div class="stock-pill mono ${isOutOfStock ? 'stock-out' : 'stock-in'}">
+              ${isOutOfStock ? i18n[currentLang].stockOut : `${item.stock}${i18n[currentLang].stockIn}`}
+            </div>
+          </div>
+          <div class="card-content">
+            <div>
+              <h3 class="card-title">${item.name}</h3>
+              <p class="card-desc">${description}</p>
+            </div>
+            <div>
+              <div class="price-container">
+                <span class="price-usd mono">$${retailUsd} USD</span>
+                <span class="price-bdt mono">${retailBdt} ৳</span>
+              </div>
+              <button class="buy-trigger" ${isOutOfStock ? 'disabled' : ''} onclick="openModal(${item.id}, '${retailUsd}', '${retailBdt}')">
+                <i class="fa-solid fa-cart-shopping"></i> ${isOutOfStock ? i18n[currentLang].stockOut : i18n[currentLang].buyBtn}
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Modal Control
+    function openModal(id, usd, bdt) {
+      const prod = products.find(x => x.id === id);
+      if (!prod) return;
+
+      activeCheckoutItem = { ...prod, usd, bdt };
+      document.getElementById('modalName').innerText = prod.name;
+      document.getElementById('modalPricing').innerText = `$${usd} USD / ${bdt} ৳`;
+
+      // Description & Highlight based on chosen language
+      const description = (currentLang === 'bn') 
+        ? (prod.desc_bn || prod.desc || "উচ্চমানের ভেরিফাইড প্রিমিয়াম সার্ভিস।") 
+        : (prod.desc_en || prod.desc || "High quality verified premium digital service.");
+
+      const highlight = (currentLang === 'bn') 
+        ? (prod.highlight_bn || prod.highlight || "⚠️ সতর্কতা: নিজস্ব অ্যাকাউন্টে অফিশিয়াল এক্টিভেশন লিঙ্ক পাঠানো হবে।") 
+        : (prod.highlight_en || prod.highlight || "⚠️ Notice: Official activation link sent directly to your account.");
+
+      document.getElementById('modalDesc').innerText = description;
+      document.getElementById('modalAlert').innerText = highlight;
+      document.getElementById('trxInput').value = '';
+      document.getElementById('checkoutModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('checkoutModal').classList.remove('active');
+    }
+
+    function copyBkash() {
+      navigator.clipboard.writeText(SYSTEM.bkash);
+      const toast = document.getElementById('toast');
+      toast.innerText = i18n[currentLang].toastCopied;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // Order Submission: Stores Pending Order for Admin Approval + Launches WhatsApp/Telegram
+    function confirmOrder(channel) {
+      const trx = document.getElementById('trxInput').value.trim();
+      if (!trx) {
+        alert(currentLang === 'bn' ? "দয়া করে Transaction ID (TrxID) প্রদান করুন!" : "Please provide your Transaction ID (TrxID)!");
+        return;
+      }
+
+      const highlightText = (currentLang === 'bn') 
+        ? (activeCheckoutItem.highlight_bn || activeCheckoutItem.highlight || "ইনস্ট্যান্ট ডেলিভারি") 
+        : (activeCheckoutItem.highlight_en || activeCheckoutItem.highlight || "Instant Delivery");
+
+      // Add to Admin Pending Queue
+      const newOrderRequest = {
+        orderId: 'PZ-' + Date.now().toString().slice(-6),
+        productName: activeCheckoutItem.name,
+        usd: parseFloat(activeCheckoutItem.usd),
+        bdt: parseInt(activeCheckoutItem.bdt),
+        trxId: trx,
+        highlight: highlightText,
+        timestamp: new Date().toLocaleString(),
+        status: 'Pending'
+      };
+
+      pendingOrders.unshift(newOrderRequest);
+      localStorage.setItem('pz_pending_orders', JSON.stringify(pendingOrders));
+
+      // Construct Language-Accurate Chat Message
+      let message = "";
+      if (currentLang === 'bn') {
+        message = 
+`✅ *নতুন অর্ডার রিকোয়েস্ট - Premium Zone BD*
+==============================
+🆔 *অর্ডার আইডি:* ${newOrderRequest.orderId}
+📦 *প্রোডাক্ট:* ${activeCheckoutItem.name}
+💵 *মূল্য:* $${activeCheckoutItem.usd} USD / ${activeCheckoutItem.bdt} ৳
+📱 *পেমেন্ট নম্বর:* বিকাশ পার্সোনাল (${SYSTEM.bkash})
+🔑 *Transaction ID:* ${trx}
+📝 *হাইলাইট নোট:* ${highlightText}
+📸 *পেমেন্ট স্লিপ:* স্ক্রিনশটটি এই চ্যাটে সেন্ড করা হচ্ছে।
+==============================
+দয়া করে পেমেন্ট যাচাই করে সার্ভিসটি কনফার্ম করুন। ধন্যবাদ!`;
+      } else {
+        message = 
+`✅ *New Order Request - Premium Zone BD*
+==============================
+🆔 *Order ID:* ${newOrderRequest.orderId}
+📦 *Product:* ${activeCheckoutItem.name}
+💵 *Amount:* $${activeCheckoutItem.usd} USD / ${activeCheckoutItem.bdt} BDT
+📱 *bKash Payment:* Personal (${SYSTEM.bkash})
+🔑 *Transaction ID:* ${trx}
+📝 *Terms Note:* ${highlightText}
+📸 *Payment Slip:* Attaching payment receipt screenshot here.
+==============================
+Please verify the transaction and confirm the order. Thank you!`;
+      }
+
+      const encoded = encodeURIComponent(message);
+
+      if (channel === 'wa') {
+        window.open(`https://wa.me/${SYSTEM.wa}?text=${encoded}`, '_blank');
+      } else {
+        window.open(`https://t.me/${SYSTEM.tg}?text=${encoded}`, '_blank');
+      }
+
+      closeModal();
+    }
+
+    // Live Search
+    function filterServices() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = products.filter(x => {
+        const descText = (currentLang === 'bn') ? (x.desc_bn || '') : (x.desc_en || '');
+        return x.name.toLowerCase().includes(q) || descText.toLowerCase().includes(q);
+      });
+      renderProducts(filtered);
+    }
+
+    // Sales Notification Bubble Loop with Language Support
+    const buyers_bn = [
+      "আরিফুল ইসলাম (ঢাকা)", "তানভীর আহমেদ (চট্টগ্রাম)", "মোঃ রাব্বি (সিলেট)",
+      "সাকিব চৌধুরী (রাজশাহী)", "মাহমুদুল হাসান (খুলনা)", "জুবায়ের হোসেন (বরিশাল)"
+    ];
+    const buyers_en = [
+      "Ariful Islam (Dhaka)", "Tanvir Ahmed (Chittagong)", "Md. Rabbi (Sylhet)",
+      "Sakib Chowdhury (Rajshahi)", "Mahmudul Hasan (Khulna)", "Zubair Hossain (Barisal)"
+    ];
+
+    function triggerSaleBubble() {
+      if (products.length === 0) return;
+      const buyersList = (currentLang === 'bn') ? buyers_bn : buyers_en;
+      const rBuyer = buyersList[Math.floor(Math.random() * buyersList.length)];
+      const rProd = products[Math.floor(Math.random() * products.length)];
+
+      const bubble = document.getElementById('salesBubble');
+      document.getElementById('bubbleInitial').innerText = rBuyer.charAt(0);
+      document.getElementById('bubbleBuyer').innerText = rBuyer;
+      document.getElementById('bubbleService').innerText = rProd.name;
+
+      bubble.classList.add('active');
+      setTimeout(() => bubble.classList.remove('active'), 5500);
+    }
+
+    // Init
+    window.addEventListener('DOMContentLoaded', () => {
+      switchLanguage(currentLang);
+      setTimeout(triggerSaleBubble, 4000);
+      setInterval(triggerSaleBubble, 30000);
+    });
+  </script>
+</body>
+</html>
